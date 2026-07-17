@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BCM116 Assessment Rubrics</title>
+    <style>
+        @page { size: A4; margin: 2cm; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: white;
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 { font-size: 1.9em; margin-bottom: 4px; color: #1f3864; }
+
+        .banner {
+            background: #f2f2f2;
+            border-radius: 10px;
+            padding: 22px 24px 20px;
+            margin-bottom: 30px;
+        }
+
+        .subtitle { font-size: 1em; color: #666; margin-bottom: 6px; font-style: italic; }
+
+        .slo-toggle {
+            display: inline-block;
+            background: none;
+            border: 1px solid #bbb;
+            color: #555;
+            font-size: 0.78em;
+            padding: 4px 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        .slo-toggle:hover { background: #e6e6e6; }
+
+        .slo-ref {
+            font-size: 0.82em;
+            color: #888;
+            margin-bottom: 14px;
+            line-height: 1.8;
+        }
+
+        .assessment-switcher {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            overflow: hidden;
+            width: fit-content;
+            background: white;
+        }
+
+        .assessment-switcher button {
+            padding: 8px 14px;
+            border: none;
+            background: #f5f5f5;
+            color: #555;
+            font-size: 0.82em;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .assessment-switcher button.active {
+            background: #1f3864;
+            color: white;
+        }
+
+        .assessment-switcher button:not(:last-child) {
+            border-right: 1px solid #ddd;
+        }
+
+        .assessment-note {
+            background: #f0f7fb;
+            border-left: 5px solid #3498db;
+            border-radius: 4px;
+            padding: 16px;
+            margin-bottom: 30px;
+            font-size: 0.95em;
+            color: #1a1a1a;
+        }
+
+        .assessment-note strong {
+            display: block;
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #3498db;
+            margin-bottom: 6px;
+        }
+
+        .criterion-section { margin-bottom: 40px; page-break-inside: avoid; }
+
+        .criterion-title {
+            font-size: 1.3em;
+            margin-bottom: 4px;
+            color: #1f3864;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #e0e0e0;
+            page-break-after: avoid;
+        }
+
+        .criterion-slo { font-size: 0.8em; color: #999; margin-bottom: 6px; }
+        .criterion-brief {
+            font-size: 0.85em;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 16px;
+        }
+
+        .criterion-outline {
+            font-size: 0.82em;
+            color: #777;
+            margin-bottom: 10px;
+        }
+        .criterion-outline .outline-label {
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            font-size: 0.9em;
+            color: #999;
+        }
+
+        .grade-box {
+            margin-bottom: 14px;
+            padding: 16px;
+            border-left: 5px solid #ddd;
+            border-radius: 4px;
+            page-break-inside: avoid;
+        }
+
+        .grade-box.hd { border-left-color: #27ae60; background: #f0f9f4; }
+        .grade-box.d  { border-left-color: #3498db; background: #f0f7fb; }
+        .grade-box.c  { border-left-color: #f0b429; background: #fef9f0; }
+        .grade-box.p  { border-left-color: #e67e22; background: #fdf5f0; }
+        .grade-box.f  { border-left-color: #c0392b; background: #fcf0f0; }
+
+        .grade-header { font-weight: 700; font-size: 1em; margin-bottom: 8px; color: #2c3e50; }
+        .grade-desc { font-size: 0.95em; color: #1a1a1a; }
+        .grade-threshold {
+            display: block;
+            margin-top: 8px;
+            color: #555;
+            font-style: italic;
+            font-size: 0.93em;
+        }
+
+        .page-break { page-break-before: always; }
+
+        /* Controls */
+        .controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+            max-width: 250px;
+            z-index: 1000;
+        }
+
+        .controls.minimized { padding: 8px 12px; }
+
+        .controls-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            cursor: pointer;
+        }
+
+        .controls.minimized .controls-header { margin-bottom: 0; }
+
+        .controls-title { font-weight: 600; color: #1f3864; font-size: 0.9em; }
+
+        .toggle-btn {
+            background: none; border: none; color: #666;
+            cursor: pointer; font-size: 18px;
+            width: 20px; height: 20px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .controls-content { display: block; }
+        .controls.minimized .controls-content { display: none; }
+
+        .control-group { margin-bottom: 13px; }
+        .control-group:last-child { margin-bottom: 0; }
+
+        .control-label {
+            display: block;
+            font-size: 0.78em;
+            color: #666;
+            margin-bottom: 7px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .checkbox-group { display: flex; flex-direction: column; gap: 5px; }
+
+        .checkbox-item { display: flex; align-items: center; gap: 8px; }
+        .checkbox-item input[type="checkbox"] { cursor: pointer; }
+        .checkbox-item label { font-size: 0.85em; cursor: pointer; }
+
+        select {
+            width: 100%;
+            padding: 6px 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.85em;
+            background: white;
+            cursor: pointer;
+        }
+
+        .divider { border: none; border-top: 1px solid #eee; margin: 11px 0; }
+
+        .print-btn {
+            width: 100%;
+            padding: 9px;
+            background: #1f3864;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.88em;
+            margin-top: 11px;
+        }
+
+        .print-btn:hover { background: #162a4e; }
+
+        @media print {
+            body { padding: 0; }
+            .controls, .assessment-switcher, .slo-toggle { display: none; }
+            .banner { background: none; padding: 0; }
+        }
+
+        body.font-small .grade-desc,
+        body.font-small .grade-threshold { font-size: 0.85em; }
+        body.font-small .criterion-title { font-size: 1.15em; }
+        body.font-small .grade-header { font-size: 0.9em; }
+
+        body.font-large .grade-desc { font-size: 1.05em; }
+        body.font-large .criterion-title { font-size: 1.45em; }
+        body.font-large .grade-header { font-size: 1.1em; }
+
+        @media (max-width: 600px) {
+            .controls { position: static; max-width: none; margin-bottom: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="controls" id="controls">
+        <div class="controls-header" onclick="toggleControls()">
+            <span class="controls-title">Display Controls</span>
+            <button class="toggle-btn" id="toggle-btn">−</button>
+        </div>
+        <div class="controls-content">
+            <div class="control-group">
+                <span class="control-label">Criteria</span>
+                <div class="checkbox-group" id="criteria-checkboxes"></div>
+            </div>
+            <hr class="divider">
+            <div class="control-group">
+                <span class="control-label">Grades</span>
+                <div class="checkbox-group" id="grade-checkboxes"></div>
+            </div>
+            <hr class="divider">
+            <div class="control-group">
+                <label class="control-label" for="font-size">Font Size</label>
+                <select id="font-size" onchange="changeFontSize()">
+                    <option value="normal">Normal</option>
+                    <option value="small">Small</option>
+                    <option value="large">Large</option>
+                </select>
+            </div>
+            <button class="print-btn" onclick="window.print()">Save as PDF</button>
+        </div>
+    </div>
+
+    <div class="banner">
+        <h1>BCM116 Assessment Rubrics</h1>
+        <p class="subtitle" id="main-subtitle"></p>
+        <button class="slo-toggle" id="slo-toggle" onclick="toggleSLOs()">Show SLOs</button>
+        <p class="slo-ref" id="slo-ref" hidden>
+            <strong>SLO 1:</strong> Proficiently discuss the history and contemporary practice of media technologies used to create immersive audience experience &nbsp;|&nbsp;
+            <strong>SLO 2:</strong> Produce creative works that make use of the aesthetic possibilities of immersive and interactive screen media technologies &nbsp;|&nbsp;
+            <strong>SLO 3:</strong> Engage with fundamental immersive screen media principles in the successful completion of creative works
+        </p>
+
+        <div class="assessment-switcher">
+            <button id="btn-a1" class="active" onclick="switchAssessment('a1')">Ass 1 — Fortnightly Responses</button>
+            <button id="btn-a2" onclick="switchAssessment('a2')">Ass 2 — Investigation 1</button>
+            <button id="btn-a3" onclick="switchAssessment('a3')">Ass 3 — Investigation 2</button>
+            <button id="btn-a4" onclick="switchAssessment('a4')">Ass 4 — Investigations 3&amp;4</button>
+        </div>
+    </div>
+
+    <div id="note-container"></div>
+    <div id="content-container"></div>
+
+    <script>
+    const GRADES = [
+        { id: "hd", shortName: "HD", fullName: "High Distinction (85–100)" },
+        { id: "d",  shortName: "D",  fullName: "Distinction (75–84)" },
+        { id: "c",  shortName: "C",  fullName: "Credit (65–74)" },
+        { id: "p",  shortName: "P",  fullName: "Pass (50–64)" },
+        { id: "f",  shortName: "F",  fullName: "Fail (0–49)" }
+    ];
+
+    const ASSESSMENTS = {
+        a1: {
+            subtitle: "Fortnightly Responses — best 5 of 6 submissions — 20% of subject grade",
+            note: "How this is marked: each fortnight, your response and your reply to a peer are each assessed against the criteria below and given a mark that reflects how well they meet them — from Fail through to High Distinction. The two marks for that submission are combined into a mark out of 20. Your best five of six submissions across the semester are then averaged to give your final mark for this assessment. This means one strong or one weaker week won't define your result — what matters is the standard of your contribution across the semester as a whole.",
+            criteria: [
+                {
+                    id: "response",
+                    shortName: "Your Response",
+                    fullTitle: "1. Your Response",
+                    slo: "SLOs 1, 3 · 50% of each submission",
+                    outline: "Subject Outline, Assessment 1: \u201cYour response (50%): a specific, thoughtful response that adds something of your own to the course's ideas or responds to its prompts.\u201d",
+                    grades: {
+                        hd: { desc: "Offers genuine conceptual or creative insight that extends our thinking on the subject, generously.", threshold: null },
+                        d:  { desc: "The example isn't just relevant, it's exactly the right one — the fit between example and point is precise, and the observation is specific rather than a general comment the example happens to illustrate.", threshold: "What lifts this to D is precision of fit between the example and the point." },
+                        c:  { desc: "Specific and thoughtful — grounded in an example from the course, in the student's own words. The example is relevant and the point is reasonable, even if the fit between them is a little loose or the observation stays fairly general.", threshold: "What lifts this to C is a specific, relevant example grounding a reasonable point." },
+                        p:  { desc: "On-topic, but general — doesn't engage anything specific.", threshold: "What lifts this to P is that the response is on-topic, even without a specific example." },
+                        f:  { desc: "No response, or generic enough to apply to any week.", threshold: null }
+                    }
+                },
+                {
+                    id: "peer",
+                    shortName: "Reply to a Peer",
+                    fullTitle: "2. Your Reply to a Peer",
+                    slo: "SLOs 1, 3 · 50% of each submission",
+                    outline: "Subject Outline, Assessment 1: \u201cYour reply to a peer (50%): generous and dialogical: builds on their thinking rather than just acknowledging it.\u201d",
+                    grades: {
+                        hd: { desc: "The reply gives the peer something to take further — introduces a connection, question, or observation their original post didn't contain, in a way that could genuinely redirect or deepen their thinking.", threshold: "What lifts this to HD is that the reply adds something genuinely new to the peer's thinking." },
+                        d:  { desc: "Clearly builds on the peer's specific thinking — engages with what they actually said and extends it, rather than responding to the topic in general.", threshold: "What lifts this to D is specific engagement with the peer's actual post, developed further." },
+                        c:  { desc: "Engages with the peer's post beyond simple acknowledgment, with some specific reference to what they said.", threshold: "What lifts this to C is genuine engagement with the peer's content, not just a supportive comment." },
+                        p:  { desc: "Acknowledges the peer's post with some indication of having read it.", threshold: "What lifts this to P is evidence the reply is actually responding to this particular post." },
+                        f:  { desc: "No reply, or reply is generic enough to apply to any post (\u201cgreat work!\u201d, \u201cI agree\u201d).", threshold: null }
+                    }
+                }
+            ]
+        },
+
+        a2: {
+            subtitle: "Investigation 1 — The Space Between — due before census, Week 3 — 20% of subject grade",
+            criteria: [
+                {
+                    id: "research",
+                    shortName: "Research",
+                    fullTitle: "1. Research",
+                    slo: "SLO 1 · 25%",
+                    outline: "Subject Outline, Assessment 2: \u201cResearch (25%) \u2014 Evidence of engagement with what artists and makers have done with this apparatus, and how that engagement is legible in the work itself \u2014 not reported alongside it.\u201d",
+                    grades: {
+                        hd: { desc: "The precedent isn't just precisely engaged with — it's taken further. The student's making does something to the precedent's approach: extends it, complicates it, or applies it somewhere the precedent itself doesn't go.", threshold: "What lifts this to HD is that the work does something with the precedent, beyond engaging with it precisely." },
+                        d:  { desc: "The precedent's particular approach is engaged with precisely, not just named — what specifically that precedent does (a method, a concern, a way of working) is identifiable in how the student took it up, not just that they were influenced by it.", threshold: "What lifts this to D is that the account is specific to what the precedent actually does, not swappable for any comparable artist or maker." },
+                        c:  { desc: "A specific artist, work, or body of practice can be named as having shaped a decision in the piece — whether or not that influence is visually traceable without being told.", threshold: "What lifts this to C is that a specific precedent is named, and a specific decision it shaped is identified." },
+                        p:  { desc: "Some acknowledgement that the apparatus has a history or existing practice, at a general level.", threshold: "What lifts this to P is a genuine attempt to locate the work in relation to anything beyond the brief itself." },
+                        f:  { desc: "No evidence of engagement with prior work on the apparatus, in the work or the statement.", threshold: null }
+                    }
+                },
+                {
+                    id: "practice",
+                    shortName: "Creative Practice",
+                    fullTitle: "2. Creative Practice and Experimentation",
+                    slo: "SLO 2 · 25%",
+                    outline: "Subject Outline, Assessment 2: \u201cCreative Practice and Experimentation (25%) \u2014 Evidence that the work was found through experiment: that you tried things, followed what surprised you, and let it change what you made.\u201d",
+                    grades: {
+                        hd: { desc: "Something unanticipated turned up in the making, and the maker noticed it, got curious, and pursued it further — the work shows a genuine detour, not just a planned execution.", threshold: "What lifts this to HD is a visible moment where the maker followed a discovery rather than sticking to the plan." },
+                        d:  { desc: "Clear, well-documented iteration — multiple approaches tried, and the final version reflects a considered choice made through that process.", threshold: "What lifts this to D is that the iteration is both evident and consequential — it visibly shaped the outcome." },
+                        c:  { desc: "The work shows evidence that testing occurred and shaped the final piece, even without extensive documentation of the process.", threshold: "What lifts this to C is visible evidence that trial-and-response happened, not just competent execution of a first idea." },
+                        p:  { desc: "The work exploits basic affordances of the apparatus without clear evidence of a testing process.", threshold: "What lifts this to P is competent, functioning execution of the chosen artefact." },
+                        f:  { desc: "No evidence of experimentation; the work doesn't engage the apparatus's particular affordances.", threshold: null }
+                    }
+                },
+                {
+                    id: "presentation",
+                    shortName: "Presentation & Experience",
+                    fullTitle: "3. Presentation and Experience",
+                    slo: "SLO 3 · 25%",
+                    outline: "Subject Outline, Assessment 2: \u201cPresentation and Experience (25%) \u2014 The work is made for someone to experience: evidence that you've considered how it's encountered, and how its finish and presentation shape that experience.\u201d",
+                    grades: {
+                        hd: { desc: "Presentation and experience are considered and critically explored elements of the work, not a finishing stage applied after the fact — the maker has tested how the piece is encountered and let what they found shape it.", threshold: "What lifts this to HD is that presentation is treated as itself a site of experiment, not just execution." },
+                        d:  { desc: "The finish and presentation are considered and controlled — deliberate decisions about pacing, framing, context, or format that shape how an audience encounters the piece, executed with precision.", threshold: "What lifts this to D is that presentation decisions are clearly intentional and well-executed, not incidental to finishing the artefact." },
+                        c:  { desc: "The work is presented with evident care for how it will be experienced — beyond simply being finished and submitted.", threshold: "What lifts this to C is visible evidence that the maker thought about an audience, not just about completing the piece." },
+                        p:  { desc: "The work is complete and presentable, without clear evidence that its encounter by an audience was considered.", threshold: "What lifts this to P is a finished, submittable piece." },
+                        f:  { desc: "The work is not in a state that can be meaningfully experienced by an audience.", threshold: null }
+                    }
+                },
+                {
+                    id: "reflective",
+                    shortName: "Reflective Statement",
+                    fullTitle: "4. Reflective Statement",
+                    slo: "SLO 1 · 25%",
+                    outline: "Subject Outline, Assessment 2: \u201cReflective Statement (25%) \u2014 Draws on Crary to account for what the apparatus revealed through your research and making \u2014 in your own words, from your own experience.\u201d",
+                    brief: "200–300 words, drawing on Crary's Techniques of the Observer to account for what the apparatus revealed through your research and making — in your own words, from your own experience.",
+                    grades: {
+                        hd: { desc: "The statement is in genuine dialogue with Crary rather than simply applying him — the student's own experience of making is allowed to talk back to the reading, whether by extending it somewhere it doesn't go, testing it against something it doesn't predict, or finding a limit in it — worked through in their own words, from what actually happened in the making.", threshold: "What lifts this to HD is that the student's own experience does something to Crary, rather than illustrating him." },
+                        d:  { desc: "Crary's account of non-veridicality and the apparatus is drawn on precisely and specifically to explain what this particular apparatus revealed through this particular making process — grounded in the student's own experience, not generic paraphrase.", threshold: "What lifts this to D is precision — the connection to Crary is specific to what actually happened in the making, not a general summary of his argument." },
+                        c:  { desc: "The statement draws on Crary and connects his ideas to the apparatus used, in the student's own words.", threshold: "What lifts this to C is a genuine, own-words connection between Crary and the specific apparatus, not just a restatement of the reading." },
+                        p:  { desc: "The statement references Crary or the apparatus's non-veridicality, without clearly connecting the two, or leans heavily on paraphrase.", threshold: "What lifts this to P is evidence the reading was engaged with at all." },
+                        f:  { desc: "No meaningful engagement with Crary, or the statement is generic, AI-register, or could apply to any apparatus.", threshold: null }
+                    }
+                }
+            ]
+        },
+
+        a3: {
+            subtitle: "Investigation 2 — due Week 7 — 20% of subject grade",
+            criteria: [
+                {
+                    id: "research",
+                    shortName: "Research",
+                    fullTitle: "1. Research",
+                    slo: "SLO 1 · 30%",
+                    outline: "Subject Outline, Assessment 3: \u201cResearch (30%) \u2014 Engagement with what artists and makers have done with this apparatus or idea, legible in the work itself \u2014 informing what you've made, not reported alongside it.\u201d",
+                    grades: {
+                        hd: { desc: "The precedent isn't just precisely engaged with — it's taken further. The student's making does something to the precedent's approach: extends it, complicates it, or applies it somewhere the precedent itself doesn't go.", threshold: "What lifts this to HD is that the work does something with the precedent, beyond engaging with it precisely." },
+                        d:  { desc: "The precedent's particular approach is engaged with precisely, not just named — what specifically that precedent does (a method, a concern, a way of working) is identifiable in how the student took it up, not just that they were influenced by it.", threshold: "What lifts this to D is that the account is specific to what the precedent actually does, not swappable for any comparable artist or maker." },
+                        c:  { desc: "A specific artist, work, or body of practice can be named as having shaped a decision in the piece — whether or not that influence is visually traceable without being told.", threshold: "What lifts this to C is that a specific precedent is named, and a specific decision it shaped is identified." },
+                        p:  { desc: "Some acknowledgement that the apparatus or idea has a history or existing practice, at a general level.", threshold: "What lifts this to P is a genuine attempt to locate the work in relation to anything beyond the brief itself." },
+                        f:  { desc: "No evidence of engagement with prior work on the apparatus or idea, in the work or accompanying text.", threshold: null }
+                    }
+                },
+                {
+                    id: "practice",
+                    shortName: "Creative Practice",
+                    fullTitle: "2. Creative Practice and Experimentation",
+                    slo: "SLO 2 · 30%",
+                    outline: "Subject Outline, Assessment 3: \u201cCreative Practice and Experimentation (30%) \u2014 Evidence of creative research practice: making, reflecting, and remaking as the work finds its form.\u201d",
+                    grades: {
+                        hd: { desc: "Something unanticipated turned up in the making, and the maker noticed it, got curious, and pursued it further — the work shows a genuine detour, not just a planned execution.", threshold: "What lifts this to HD is a visible moment where the maker followed a discovery rather than sticking to the plan." },
+                        d:  { desc: "Clear, well-documented iteration — multiple approaches tried, and the final version reflects a considered choice made through that process.", threshold: "What lifts this to D is that the iteration is both evident and consequential — it visibly shaped the outcome." },
+                        c:  { desc: "The work shows evidence that testing occurred and shaped the final piece, even without extensive documentation of the process.", threshold: "What lifts this to C is visible evidence that trial-and-response happened, not just competent execution of a first idea." },
+                        p:  { desc: "The work exploits basic affordances of the apparatus or idea without clear evidence of a testing process.", threshold: "What lifts this to P is competent, functioning execution of the chosen approach." },
+                        f:  { desc: "No evidence of experimentation; the work doesn't engage the apparatus's or idea's particular affordances.", threshold: null }
+                    }
+                },
+                {
+                    id: "presentation",
+                    shortName: "Presentation & Experience",
+                    fullTitle: "3. Presentation and Experience",
+                    slo: "SLO 3 · 30%",
+                    outline: "Subject Outline, Assessment 3: \u201cPresentation and Experience (30%) \u2014 Quality and finish as media art: the work is gallery-ready, and its finish and presentation shape how an audience encounters and experiences it.\u201d",
+                    grades: {
+                        hd: { desc: "The work treats a viewer's perceptual and temporal experience — attention, rhythm, continuity or its disruption — as material it investigates, not just an effect it produces. The maker has tested how editing or sound shapes that experience and let what they found direct a specific formal decision.", threshold: "What lifts this to HD is that the shaping of perception is itself something the work explores." },
+                        d:  { desc: "The work demonstrates clear, deliberate control of rhythm, continuity, or sound to shape a viewer's temporal experience, executed with precision and finished to a gallery-ready standard.", threshold: "What lifts this to D is precise, intentional control of the viewer's perceptual experience through editing or sound." },
+                        c:  { desc: "The work shows evident care for how a viewer experiences its rhythm, timing, or sound, and is presented to a gallery-ready standard.", threshold: "What lifts this to C is visible evidence the maker considered the viewer's experience of time and continuity, not just the work's completion." },
+                        p:  { desc: "The work is complete and gallery-ready, without clear evidence that the viewer's perceptual or temporal experience was considered.", threshold: "What lifts this to P is a finished, presentable piece." },
+                        f:  { desc: "The work is not in a state that can be meaningfully experienced by an audience.", threshold: null }
+                    }
+                },
+                {
+                    id: "panel",
+                    shortName: "Didactic Panel",
+                    fullTitle: "4. Didactic Panel / Program Note",
+                    slo: "SLO 3 · 10%",
+                    outline: "Subject Outline, Assessment 3: \u201cDidactic Panel/Program Note (10%) \u2014 Tells a gallery visitor what your work was investigating \u2014 a question, a material, an idea, an aesthetic \u2014 and what the making set out to explore. Clear and precise, written for the public in the gallery, not for assessment.\u201d",
+                    brief: "150 words, present tense, appropriate to the presentation context of the work.",
+                    grades: {
+                        hd: { desc: "Informs the visitor's experience of the work in a way that enhances it — orienting them to what's there to be encountered without delimiting what they might find in it.", threshold: "What lifts this to HD is that the panel expands the visitor's experience of the work rather than narrowing it to one reading." },
+                        d:  { desc: "Clearly and precisely informs the visitor about what the work investigates, in present tense and gallery voice, without narrowing how it might be experienced.", threshold: "What lifts this to D is precision without narrowing the experience." },
+                        c:  { desc: "Names what the work investigates, addressed to a visitor rather than a marker.", threshold: "What lifts this to C is a legible, gallery-voiced account of subject matter." },
+                        p:  { desc: "States what the work is about, though it may lapse into assessment register.", threshold: "What lifts this to P is a legible statement of subject matter." },
+                        f:  { desc: "No panel provided, or it fails to orient a visitor to the work.", threshold: null }
+                    }
+                }
+            ]
+        },
+
+        a4: {
+            subtitle: "Investigations 3 & 4 — due Week 13 — 40% of subject grade",
+            note: "Two investigations, one rubric: each criterion is assessed holistically across the combined body of work (or the single double-length project), not as a requirement for a demonstrated relationship between the two pieces.",
+            criteria: [
+                {
+                    id: "research",
+                    shortName: "Research",
+                    fullTitle: "1. Research",
+                    slo: "SLO 1 · 30%",
+                    outline: "Subject Outline, Assessment 4: \u201cResearch (30%) \u2014 Engagement with what artists and makers have done with this apparatus or idea, legible in the work itself \u2014 informing what you've made, not reported alongside it.\u201d",
+                    grades: {
+                        hd: { desc: "The precedent isn't just precisely engaged with — it's taken further. The student's making does something to the precedent's approach: extends it, complicates it, or applies it somewhere the precedent itself doesn't go.", threshold: "What lifts this to HD is that the work does something with the precedent, beyond engaging with it precisely." },
+                        d:  { desc: "The precedent's particular approach is engaged with precisely, not just named — what specifically that precedent does (a method, a concern, a way of working) is identifiable in how the student took it up, not just that they were influenced by it.", threshold: "What lifts this to D is that the account is specific to what the precedent actually does, not swappable for any comparable artist or maker." },
+                        c:  { desc: "A specific artist, work, or body of practice can be named as having shaped a decision in the piece — whether or not that influence is visually traceable without being told.", threshold: "What lifts this to C is that a specific precedent is named, and a specific decision it shaped is identified." },
+                        p:  { desc: "Some acknowledgement that the apparatus or idea has a history or existing practice, at a general level.", threshold: "What lifts this to P is a genuine attempt to locate the work in relation to anything beyond the brief itself." },
+                        f:  { desc: "No evidence of engagement with prior work on the apparatus or idea, in the work or accompanying text.", threshold: null }
+                    }
+                },
+                {
+                    id: "practice",
+                    shortName: "Creative Practice",
+                    fullTitle: "2. Creative Practice and Experimentation",
+                    slo: "SLO 2 · 30%",
+                    outline: "Subject Outline, Assessment 4: \u201cCreative Practice and Experimentation (30%) \u2014 Evidence of creative research practice: making, reflecting, and remaking as the work finds its form.\u201d",
+                    grades: {
+                        hd: { desc: "Something unanticipated turned up in the making, and the maker noticed it, got curious, and pursued it further — the work shows a genuine detour, not just a planned execution.", threshold: "What lifts this to HD is a visible moment where the maker followed a discovery rather than sticking to the plan." },
+                        d:  { desc: "Clear, well-documented iteration — multiple approaches tried, and the final version reflects a considered choice made through that process.", threshold: "What lifts this to D is that the iteration is both evident and consequential — it visibly shaped the outcome." },
+                        c:  { desc: "The work shows evidence that testing occurred and shaped the final piece, even without extensive documentation of the process.", threshold: "What lifts this to C is visible evidence that trial-and-response happened, not just competent execution of a first idea." },
+                        p:  { desc: "The work exploits basic affordances of the apparatus or idea without clear evidence of a testing process.", threshold: "What lifts this to P is competent, functioning execution of the chosen approach." },
+                        f:  { desc: "No evidence of experimentation; the work doesn't engage the apparatus's or idea's particular affordances.", threshold: null }
+                    }
+                },
+                {
+                    id: "presentation",
+                    shortName: "Presentation & Experience",
+                    fullTitle: "3. Presentation and Experience",
+                    slo: "SLO 3 · 30%",
+                    outline: "Subject Outline, Assessment 4: \u201cPresentation and Experience (30%) \u2014 Quality and finish of both works as media art: gallery-ready, their finish and presentation shaping how an audience encounters and experiences them.\u201d",
+                    grades: {
+                        hd: { desc: "The relationship between the viewer's body and the screen, signal, or space is treated as material the work investigates, not a condition it operates within — the maker has tested how a body encounters the piece across screen(s), projection, or space, and let what they found shape a specific formal decision.", threshold: "What lifts this to HD is that the body/screen/space relationship is itself something the work explores." },
+                        d:  { desc: "The work demonstrates clear, deliberate control of how a viewer's body relates to screen, signal, or space, executed with precision and finished to a gallery-ready standard.", threshold: "What lifts this to D is precise, intentional handling of the body/screen relationship." },
+                        c:  { desc: "The work shows evident care for how a viewer's body encounters it across screen or space, and is presented to a gallery-ready standard.", threshold: "What lifts this to C is visible evidence the maker considered the viewer's body in relation to the work." },
+                        p:  { desc: "The work is complete and gallery-ready, without clear evidence that the body/screen relationship was considered.", threshold: "What lifts this to P is a finished, presentable piece." },
+                        f:  { desc: "The work is not in a state that can be meaningfully experienced by an audience.", threshold: null }
+                    }
+                },
+                {
+                    id: "panel",
+                    shortName: "Didactic Panel",
+                    fullTitle: "4. Didactic Panel / Program Note",
+                    slo: "SLO 3 · 10%",
+                    outline: "Subject Outline, Assessment 4: \u201cDidactic Panel/Program Note (10%) \u2014 Tells a gallery visitor what your work is investigating \u2014 a question, a material, an idea, an aesthetic \u2014 and what the making explores. Clear and precise, written for the public in the gallery.\u201d",
+                    brief: "150 words each, present tense, appropriate to the presentation context of each work.",
+                    grades: {
+                        hd: { desc: "Informs the visitor's experience of the work in a way that enhances it — orienting them to what's there to be encountered without delimiting what they might find in it.", threshold: "What lifts this to HD is that the panel expands the visitor's experience of the work rather than narrowing it to one reading." },
+                        d:  { desc: "Clearly and precisely informs the visitor about what the work investigates, in present tense and gallery voice, without narrowing how it might be experienced.", threshold: "What lifts this to D is precision without narrowing the experience." },
+                        c:  { desc: "Names what the work investigates, addressed to a visitor rather than a marker.", threshold: "What lifts this to C is a legible, gallery-voiced account of subject matter." },
+                        p:  { desc: "States what the work is about, though it may lapse into assessment register.", threshold: "What lifts this to P is a legible statement of subject matter." },
+                        f:  { desc: "No panel provided, or it fails to orient a visitor to the work.", threshold: null }
+                    }
+                }
+            ]
+        }
+    };
+
+    /* ===== LOGIC ===== */
+
+    let currentAssessment = 'a1';
+    let selectedCriteria = new Set();
+    let selectedGrades = new Set(GRADES.map(g => g.id));
+
+    function switchAssessment(id) {
+        currentAssessment = id;
+        ['a1','a2','a3','a4'].forEach(a => {
+            document.getElementById('btn-' + a).classList.toggle('active', id === a);
+        });
+        initializeCriteriaCheckboxes();
+        renderContent();
+    }
+
+    function initializeCriteriaCheckboxes() {
+        const data = ASSESSMENTS[currentAssessment];
+        selectedCriteria = new Set(data.criteria.map(c => c.id));
+        document.getElementById('criteria-checkboxes').innerHTML = data.criteria.map(c => `
+            <div class="checkbox-item">
+                <input type="checkbox" id="crit-${c.id}" checked onchange="toggleCriterion('${c.id}')">
+                <label for="crit-${c.id}">${c.shortName}</label>
+            </div>
+        `).join('');
+    }
+
+    function initializeGradeCheckboxes() {
+        document.getElementById('grade-checkboxes').innerHTML = GRADES.map(g => `
+            <div class="checkbox-item">
+                <input type="checkbox" id="grade-${g.id}" checked onchange="toggleGrade('${g.id}')">
+                <label for="grade-${g.id}">${g.shortName}</label>
+            </div>
+        `).join('');
+    }
+
+    function toggleCriterion(id) {
+        selectedCriteria.has(id) ? selectedCriteria.delete(id) : selectedCriteria.add(id);
+        renderContent();
+    }
+
+    function toggleGrade(id) {
+        selectedGrades.has(id) ? selectedGrades.delete(id) : selectedGrades.add(id);
+        renderContent();
+    }
+
+    function toggleSLOs() {
+        const el = document.getElementById('slo-ref');
+        const btn = document.getElementById('slo-toggle');
+        const hidden = el.hasAttribute('hidden');
+        if (hidden) {
+            el.removeAttribute('hidden');
+            btn.textContent = 'Hide SLOs';
+        } else {
+            el.setAttribute('hidden', '');
+            btn.textContent = 'Show SLOs';
+        }
+    }
+
+    function toggleControls() {
+        const c = document.getElementById('controls');
+        const b = document.getElementById('toggle-btn');
+        c.classList.toggle('minimized');
+        b.textContent = c.classList.contains('minimized') ? '+' : '−';
+    }
+
+    function changeFontSize() {
+        const s = document.getElementById('font-size').value;
+        document.body.className = s === 'normal' ? '' : `font-${s}`;
+    }
+
+    function renderContent() {
+        const data = ASSESSMENTS[currentAssessment];
+        document.getElementById('main-subtitle').textContent = data.subtitle;
+
+        document.getElementById('note-container').innerHTML = data.note
+            ? `<div class="assessment-note"><strong>How this is marked</strong>${data.note}</div>`
+            : '';
+
+        const html = data.criteria
+            .filter(c => selectedCriteria.has(c.id))
+            .map((criterion, index) => {
+                const gradesHTML = GRADES
+                    .filter(g => selectedGrades.has(g.id))
+                    .map(g => {
+                        const gd = criterion.grades[g.id];
+                        const threshold = gd.threshold
+                            ? `<span class="grade-threshold">${gd.threshold}</span>`
+                            : '';
+                        return `
+                            <div class="grade-box ${g.id}">
+                                <div class="grade-header">${g.shortName} — ${g.fullName}</div>
+                                <div class="grade-desc">${gd.desc}${threshold}</div>
+                            </div>`;
+                    }).join('');
+
+                const briefHTML = criterion.brief
+                    ? `<p class="criterion-brief">${criterion.brief}</p>`
+                    : '';
+
+                const outlineHTML = criterion.outline
+                    ? `<p class="criterion-outline">(<span class="outline-label">Outline:</span> ${criterion.outline})</p>`
+                    : '';
+
+                return `
+                    <div class="criterion-section ${index > 0 ? 'page-break' : ''}">
+                        <h2 class="criterion-title">${criterion.fullTitle}</h2>
+                        <p class="criterion-slo">${criterion.slo}</p>
+                        ${outlineHTML}
+                        ${briefHTML}
+                        ${gradesHTML}
+                    </div>`;
+            }).join('');
+
+        document.getElementById('content-container').innerHTML = html;
+    }
+
+    initializeCriteriaCheckboxes();
+    initializeGradeCheckboxes();
+    renderContent();
+    </script>
+</body>
+</html>
