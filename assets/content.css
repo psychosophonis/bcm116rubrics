@@ -1,45 +1,53 @@
+:root {
+    --ink: #111111;
+    --paper: #ffffff;
+    --gray: #666666;
+    --line: #dcdcdc;
+    --red: #d0271d;
+}
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', sans-serif;
     line-height: 1.6;
-    color: #1a1a1a;
-    background: white;
+    color: var(--ink);
+    background: var(--paper);
     padding: 20px;
     max-width: 900px;
     margin: 0 auto;
 }
 
-a { color: #1f3864; }
-
-.w-banner {
-    background: #f2f2f2;
-    border-radius: 10px;
-    padding: 22px 24px 20px;
-    margin-bottom: 30px;
-}
-
-.w-banner h1 { font-size: 1.7em; color: #1f3864; margin-bottom: 6px; }
-.w-banner .w-tagline { font-size: 0.98em; color: #444; }
+a { color: var(--red); }
 
 .back-link {
     display: inline-block;
     margin-bottom: 14px;
     font-size: 0.85em;
-    color: #1f3864;
+    color: var(--gray);
     text-decoration: none;
 }
-.back-link:hover { text-decoration: underline; }
+.back-link:hover { color: var(--red); }
+
+.w-banner {
+    border-bottom: 1px solid var(--ink);
+    padding: 0 0 22px;
+    margin-bottom: 30px;
+}
+
+.w-banner h1 { font-size: 1.9em; font-weight: 700; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 8px; }
+.w-banner .w-tagline { font-size: 0.98em; color: var(--gray); max-width: 62ch; }
 
 #rendered h2 {
     display: flex;
     align-items: baseline;
     gap: 8px;
     font-size: 1.3em;
-    color: #1f3864;
+    font-weight: 800;
+    color: var(--ink);
     margin: 34px 0 12px;
     padding-bottom: 8px;
-    border-bottom: 3px solid #e0e0e0;
+    border-bottom: 2px solid var(--ink);
     scroll-margin-top: 20px;
 }
 
@@ -48,7 +56,8 @@ a { color: #1f3864; }
     align-items: baseline;
     gap: 8px;
     font-size: 1.08em;
-    color: #1f3864;
+    font-weight: 700;
+    color: var(--ink);
     margin: 22px 0 10px;
     scroll-margin-top: 20px;
 }
@@ -58,7 +67,8 @@ a { color: #1f3864; }
     align-items: baseline;
     gap: 8px;
     font-size: 0.95em;
-    color: #444;
+    font-weight: 600;
+    color: var(--gray);
     text-transform: uppercase;
     letter-spacing: 0.04em;
     margin: 18px 0 8px;
@@ -74,18 +84,18 @@ a { color: #1f3864; }
 
 #rendered hr {
     border: none;
-    border-top: 1px solid #e0e0e0;
+    border-top: 1px solid var(--line);
     margin: 26px 0;
 }
 
 .reflect-box {
-    background: #f0f7fb;
-    border-left: 5px solid #3498db;
-    border-radius: 4px;
+    background: #f4f6f8;
+    border-left: 3px solid #8a97a3;
+    border-radius: 2px;
     padding: 14px 16px;
     margin-bottom: 16px;
     font-style: italic;
-    color: #234;
+    color: #2a2e33;
 }
 
 .video-link {
@@ -95,32 +105,32 @@ a { color: #1f3864; }
 .video-link:hover { text-decoration: underline; }
 
 .aside {
-    background: #f7f7f7;
-    border-left: 4px solid #cbb677;
-    border-radius: 4px;
+    background: #faf6ee;
+    border-left: 3px solid #cbb677;
+    border-radius: 2px;
     padding: 14px 16px;
     margin-bottom: 16px;
     font-size: 0.95em;
     color: #4a4a4a;
 }
-.aside a { color: #1f3864; }
+.aside a { color: var(--red); }
 
 .print-btn {
     position: fixed;
     top: 20px;
     right: 20px;
     padding: 9px 16px;
-    background: #1f3864;
+    background: var(--ink);
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 3px;
     font-size: 0.85em;
     font-weight: 600;
     cursor: pointer;
     box-shadow: 0 2px 10px rgba(0,0,0,0.12);
     z-index: 1000;
 }
-.print-btn:hover { background: #162a4e; }
+.print-btn:hover { background: var(--red); }
 
 .link-btn {
     flex-shrink: 0;
@@ -132,7 +142,7 @@ a { color: #1f3864; }
     padding: 2px 6px;
     border-radius: 4px;
 }
-.link-btn:hover { background: #eee; color: #1f3864; }
+.link-btn:hover { background: #eee; color: var(--red); }
 .link-btn.copied { color: #27ae60; }
 
 .highlight-flash {
@@ -151,7 +161,7 @@ a { color: #1f3864; }
 @media print {
     body { padding: 0; }
     .back-link, .print-btn, .link-btn { display: none; }
-    .w-banner { background: none; padding: 0; }
+    .w-banner { border-bottom-color: var(--ink); }
     #rendered h2, #rendered h3, #rendered h4 { page-break-after: avoid; }
     .reflect-box, .aside, li { page-break-inside: avoid; }
     a[href^="http"]::after {

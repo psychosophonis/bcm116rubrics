@@ -1,0 +1,102 @@
+:root {
+    --ink: #111111;
+    --paper: #ffffff;
+    --gray: #666666;
+    --line: #dcdcdc;
+    --red: #d0271d;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    max-width: 980px;
+    margin: 0 auto;
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 40px 40px 0;
+    font-size: 0.78em;
+    font-weight: 500;
+    color: var(--gray);
+}
+.top span.mark { color: var(--red); }
+.top a { color: var(--gray); text-decoration: none; }
+.top a:hover { color: var(--ink); }
+
+.hero {
+    padding: 18px 40px 36px;
+    border-bottom: 1px solid var(--ink);
+}
+.hero h1 {
+    font-size: clamp(1.8em, 4vw, 2.4em);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    margin: 10px 0 0;
+}
+.hero p {
+    max-width: 56ch;
+    font-size: 0.95em;
+    color: var(--gray);
+    margin-top: 10px;
+    line-height: 1.5;
+}
+
+.rows { padding: 0 40px; }
+.row {
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    align-items: start;
+    gap: 24px;
+    padding: 38px 0;
+    border-bottom: 1px solid var(--line);
+    text-decoration: none;
+    color: inherit;
+}
+.row-num {
+    font-size: 0.95em;
+    font-weight: 700;
+    color: var(--red);
+    padding-top: 6px;
+}
+.row-main { min-width: 0; }
+.row-title {
+    font-size: 1.7em;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+}
+.row-desc { font-size: 0.95em; color: var(--gray); max-width: 56ch; line-height: 1.55; }
+.row-arrow {
+    font-size: 1.6em;
+    font-weight: 400;
+    color: var(--ink);
+    padding-top: 4px;
+    transition: transform 0.15s;
+}
+.row:hover .row-arrow { transform: translateX(6px); color: var(--red); }
+.row:hover .row-title { color: var(--red); }
+
+.row.pending {
+    cursor: default;
+    opacity: 0.45;
+}
+.row.pending:hover .row-arrow,
+.row.pending:hover .row-title { color: inherit; transform: none; }
+.row.pending .row-num { color: var(--gray); }
+
+.foot {
+    padding: 32px 40px 48px;
+    font-size: 0.8em;
+    color: var(--gray);
+}
+
+@media (max-width: 620px) {
+    .top, .hero, .rows, .foot { padding-left: 22px; padding-right: 22px; }
+    .row { grid-template-columns: 32px 1fr auto; gap: 14px; }
+    .row-title { font-size: 1.35em; }
+}

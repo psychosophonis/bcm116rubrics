@@ -4,32 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BCM116 Assessment Rubrics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         @page { size: A4; margin: 2cm; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
+        :root {
+            --ink: #111111;
+            --paper: #ffffff;
+            --gray: #666666;
+            --line: #dcdcdc;
+            --red: #d0271d;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-family: 'Inter', sans-serif;
             line-height: 1.6;
-            color: #1a1a1a;
-            background: white;
+            color: var(--ink);
+            background: var(--paper);
             padding: 20px;
             max-width: 900px;
             margin: 0 auto;
         }
 
-        h1 { font-size: 1.9em; margin-bottom: 4px; color: #1f3864; }
+        h1 { font-size: 1.9em; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 4px; color: var(--ink); }
 
         .banner {
-            background: #f2f2f2;
-            border-radius: 10px;
-            padding: 22px 24px 20px;
+            border-bottom: 1px solid var(--ink);
+            padding: 0 0 22px;
             margin-bottom: 30px;
         }
 
-        .subtitle { font-size: 1em; color: #666; margin-bottom: 6px; font-style: italic; }
+        .subtitle { font-size: 1em; color: var(--gray); margin-bottom: 6px; }
 
         .slo-toggle {
+            font-family: 'Inter', sans-serif;
             display: inline-block;
             background: none;
             border: 1px solid #bbb;
@@ -53,18 +64,18 @@
             display: flex;
             flex-wrap: wrap;
             gap: 0;
-            border: 1px solid #ddd;
-            border-radius: 6px;
+            border: 1px solid var(--ink);
             overflow: hidden;
             width: fit-content;
             background: white;
         }
 
         .assessment-switcher button {
+            font-family: 'Inter', sans-serif;
             padding: 8px 14px;
             border: none;
-            background: #f5f5f5;
-            color: #555;
+            background: white;
+            color: var(--ink);
             font-size: 0.82em;
             font-weight: 500;
             cursor: pointer;
@@ -73,22 +84,22 @@
         }
 
         .assessment-switcher button.active {
-            background: #1f3864;
+            background: var(--ink);
             color: white;
         }
 
         .assessment-switcher button:not(:last-child) {
-            border-right: 1px solid #ddd;
+            border-right: 1px solid var(--ink);
         }
 
         .assessment-note {
-            background: #f0f7fb;
-            border-left: 5px solid #3498db;
-            border-radius: 4px;
+            background: #f4f6f8;
+            border-left: 3px solid #8a97a3;
+            border-radius: 2px;
             padding: 16px;
             margin-bottom: 30px;
             font-size: 0.95em;
-            color: #1a1a1a;
+            color: var(--ink);
         }
 
         .assessment-note strong {
@@ -96,7 +107,7 @@
             font-size: 0.8em;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            color: #3498db;
+            color: #5a6672;
             margin-bottom: 6px;
         }
 
@@ -104,10 +115,11 @@
 
         .criterion-title {
             font-size: 1.3em;
+            font-weight: 800;
             margin-bottom: 4px;
-            color: #1f3864;
+            color: var(--ink);
             padding-bottom: 8px;
-            border-bottom: 3px solid #e0e0e0;
+            border-bottom: 2px solid var(--ink);
             page-break-after: avoid;
         }
 
@@ -164,8 +176,8 @@
             top: 20px;
             right: 20px;
             background: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            border: 1px solid var(--line);
+            border-radius: 4px;
             padding: 15px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.12);
             max-width: 250px;
@@ -184,7 +196,7 @@
 
         .controls.minimized .controls-header { margin-bottom: 0; }
 
-        .controls-title { font-weight: 600; color: #1f3864; font-size: 0.9em; }
+        .controls-title { font-weight: 700; color: var(--ink); font-size: 0.9em; }
 
         .toggle-btn {
             background: none; border: none; color: #666;
@@ -216,10 +228,11 @@
         .checkbox-item label { font-size: 0.85em; cursor: pointer; }
 
         select {
+            font-family: 'Inter', sans-serif;
             width: 100%;
             padding: 6px 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            border: 1px solid var(--line);
+            border-radius: 3px;
             font-size: 0.85em;
             background: white;
             cursor: pointer;
@@ -228,24 +241,32 @@
         .divider { border: none; border-top: 1px solid #eee; margin: 11px 0; }
 
         .print-btn {
+            font-family: 'Inter', sans-serif;
             width: 100%;
             padding: 9px;
-            background: #1f3864;
+            background: var(--ink);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 3px;
             font-weight: 600;
             cursor: pointer;
             font-size: 0.88em;
             margin-top: 11px;
         }
 
-        .print-btn:hover { background: #162a4e; }
+        .print-btn:hover { background: var(--red); }
 
         @media print {
             body { padding: 0; }
             .controls, .assessment-switcher, .slo-toggle { display: none; }
-            .banner { background: none; padding: 0; }
+            .banner { border-bottom-color: var(--ink); }
+            a[href^="http"]::after {
+                content: " (" attr(href) ")";
+                font-size: 0.85em;
+                font-weight: normal;
+                color: #666;
+                word-break: break-all;
+            }
         }
 
         body.font-small .grade-desc,
@@ -273,7 +294,7 @@
             padding: 2px 6px;
             border-radius: 4px;
         }
-        .link-btn:hover { background: #eee; color: #1f3864; }
+        .link-btn:hover { background: #eee; color: var(--red); }
         .link-btn.copied { color: #27ae60; }
 
         body.is-focused .banner { display: none; }
@@ -283,10 +304,10 @@
             display: inline-block;
             margin-bottom: 14px;
             font-size: 0.85em;
-            color: #1f3864;
+            color: var(--gray);
             text-decoration: none;
         }
-        .back-link:hover { text-decoration: underline; }
+        .back-link:hover { color: var(--red); }
 
         .focused-breadcrumb {
             font-size: 0.85em;
