@@ -1,0 +1,249 @@
+# BCM116 Week 3 Workshop: Impossible Worlds
+
+**Today we'll investigate how Méliès created impossible worlds using story structure and basic apparatus. Working with silent film format and professional equipment, we'll create place-based magic using Dan Harmon's Story Circle structure.**
+
+---
+
+## The Méliès Template: "The Vanishing Lady" (1896)
+
+**Our archaeological starting point demonstrates the power of simple story structure:**
+
+https://www.youtube.com/watch?v=wmNGSCCIPiI
+
+1. **YOU**: Woman sits in ordinary chair on stage
+2. **NEED**: Magician wants to demonstrate his magical power  
+3. **GO**: Woman is covered with cloth (magic intervention begins)
+4. **FIND**: Cloth removed - she's vanished! But when magician tries to bring her back, **a skeleton appears instead** (complication!)
+5. **RETURN**: Panicked magician fixes the trick, brings woman back safely
+6. **CHANGE**: Audience relieved and amazed by his "recovery" powers
+
+**Key insight:** The **complication** (skeleton instead of woman) creates the charm and humor. Without it, the trick is just technical demonstration.
+
+Can you see the story cycle in other Melies films:
+
+https://www.youtube.com/watch?v=5DExmCKwQ8o
+
+---
+
+## Your Mission: Create Campus Magic (That Reveals Place & Country?)
+
+**Using the story circle structure, create 2-3 minute silent films that reveal hidden aspects of campus life through impossible interventions. Consider how your stories might connect to broader questions of place, belonging, and what it means to be "here" in this specific location.**
+
+---
+
+## Workshop Constraints & Requirements
+
+- **Silent film format** - no sync sound required
+- **2 locations maximum** (studio + one campus location)
+- **Locked-off shots required** for stop-substitution
+- **Canon XA70 + tripod** - professional standards
+- **3 minutes maximum duration**
+- **Title cards required**: Opening title, credits, optional story cards
+
+## Some Sample Scripts:
+
+### Script Examples (Feel free to improve on these!):
+
+#### Example 1: The Parking Dilemma (Easy?)
+
+1. **YOU**: Student desperately circling for parking before class
+2. **NEED**: Must find parking space in the "no parking" campus
+3. **GO**: Magic makes their car disappear to create a free spot
+4. **FIND**: Perfect spot achieved, but **another student uses magic to steal/drive away in their car** (complication!)
+5. **RETURN**: Student chooses to take the bus instead
+6. **CHANGE**: Realizes stress-free journey more important than parking wars
+
+*Place/Country Connection: Car culture vs. public transport, urban campus vs. commuter reality*
+
+#### Example 2: International Student Conformity (Harder)
+
+1. **YOU**: International student feeling obviously different on campus
+2. **NEED**: Desperately wants to fit in and not stand out as "foreign"
+3. **GO**: Magic transforms them to look/act like ideal local student
+4. **FIND**: They fit in perfectly, but **campus fills with identical people all looking exactly the same** (complication!)
+5. **RETURN**: Student chooses to transform back, spots another person doing the same - instant connection
+6. **CHANGE**: Realizes difference attracts the right people and creates real community
+
+*Place/Country Connection: What does "Australian" look like? Who belongs in this place? Cultural diversity vs. conformity*
+
+#### Example 3: Campus Romance (Easy)
+
+1. **YOU**: Lonely student on eerily quiet campus
+2. **NEED**: Wants love/companionship but campus too quiet to meet anyone
+3. **GO**: Magic creates bustling party atmosphere around campus
+4. **FIND**: Spots attractive student, but **party too noisy/chaotic for intimate conversation** (complication!)
+5. **RETURN**: Student actively dismisses magic to quietly approach crush in peaceful silence
+6. **CHANGE**: Discovers quiet conversation perfect for romance - better than party chaos
+
+---
+
+# Recipe Cards: Your Technical Toolkit
+
+**Lead with these practical guides - refer to tutorial links only if you get stuck**
+
+## Recipe Card 1: Masking Effects
+
+**When to use:** Object replacement, isolating parts of image, creating impossible combinations, making backgrounds appear/disappear
+
+**Examples:** 
+- Replace what's on a computer screen
+- Make text appear behind a person
+- Combine different takes of same scene
+- Hide/reveal objects selectively
+
+### DaVinci Resolve Method:
+1. **Setup Timeline:** Base clip V1, overlay/effect clip V2
+2. **Select clip to mask** → Fusion tab  (Wand Icon)
+3. **Window panel** → Choose **Circle, Linear, or Pen tool**
+4. **Draw mask** around area you want to isolate
+5. **Refine:** Adjust softness slider for smooth edges
+6. **Track movement:** Use tracker if subject moves
+
+(See Video Below for and even easier version if we don't plan to overlap interactions.)
+
+### Premiere Pro Method:
+1. **Setup Timeline:** Base clip V1, overlay clip V2
+2. **Select clip to mask**.
+3. Go to the **Effects Controls** and Find 'Opacity' - Click the **Ellipse, Rectangle, or Bezier** (Pen) Tool to create a mask. 
+4. **Draw mask** by clicking points around subject in the program window.
+5. **Feather edges** for smooth blend
+6. **Mask Path:** Enable stopwatch and add keyframes in the effects control timeline to animate if needed.
+7. **Adjust opacity** if blending multiple layers
+8. You can then **scale** and **reposition** this masked content by selecting 'Motion' in the effects controls and adjusting as required.
+
+**For more details see:**
+- A really short easy intro to masking in premiere pro - you probably only need the first 3 minutes: https://www.youtube.com/watch?v=M1jije6Gmvg 
+- Resolve: https://www.youtube.com/watch?v=6MVm85mY1S8 (First bit is the simplest way to mask.)
+- https://www.youtube.com/watch?v=oRYmyIu8qcA (A much clearer introduction to more complex masking in the free version starts at about 4.30).
+
+---
+
+## Recipe Card 2: Green Screen Magic
+
+**When to use:** Replacing backgrounds, creating impossible locations, putting multiple people in same shot, scale effects
+
+**Examples:**
+- Transport character to different location
+- Create multiple versions of same person
+- Add impossible backgrounds
+- Make person appear giant or tiny
+
+### DaVinci Resolve Method:
+1. **Setup Timeline:** Background V1, green screen clip V2
+2. **Select green screen clip** → **Color tab**
+3. **Qualifier panel** → **Click eyedropper tool**
+4. **Click green screen** in viewer
+5. **Click Highlight** to see selection (gray area)
+6. **Click Invert** if wrong area selected
+7. **Clean up:** Adjust Clean Black/White sliders for clean edges
+8. **Spill suppression:** Remove green color cast from edges
+
+### Premiere Pro Method:
+1. **Setup Timeline:** Background V1, green screen V2
+2. **Effects:** Search **"Ultra Key"** → drag to green screen clip
+3. **Effect Controls:** Click **eyedropper** next to Key Color
+4. **Click green screen** in viewer to sample color
+5. **Setting:** Change to "Aggressive" for better key
+6. **Matte Generation:** Adjust Tolerance/Pedestal if needed
+7. **Spill Suppression:** Set to Medium to remove green edges
+
+**For more details see:**
+- Another rezolve method and more detail : https://www.youtube.com/watch?v=tNeUs79W8eA
+- For Premiere - see instructions above or this short https://www.youtube.com/shorts/8IwgFqU9_Sg
+
+---
+
+## Recipe Card 3: Silent Film Title Cards
+
+**When to use:** Establishing story context, character introduction, location/time information, dialogue replacement
+
+**Examples:**
+- "Our hero discovers the truth..."
+- "Meanwhile, at the university..."  
+- "Professor Smith"
+- "The End"
+
+###  DaVinci Resolve Method:
+1. **Edit tab** → **Effects Library** → **Titles** → **Text**
+2. **Drag Text** onto timeline above other clips
+3. **Inspector panel** (top right):
+   - **Text:** Type your message (keep short!)
+   - **Font:** Classic serif font (Times, Georgia)
+   - **Size:** Large and readable
+   - **Color:** White text OR black text (high contrast)
+4. **Position:** Center in frame
+5. **Background:** Add solid color or keep transparent
+6. **Duration:** 3-5 seconds per card
+7. **Transitions:** Add Cross Dissolve in/out
+
+   https://www.youtube.com/watch?v=dxvmQF0wJOo
+
+### Premiere Pro Method:
+1. **Graphics workspace** → **Essential Graphics panel**
+2. **New Layer** → **Text**
+3. **Type title** in text box
+4. **Format text:**
+   - **Font:** Classic serif (Times New Roman, Georgia)
+   - **Size:** Large (48pt+)
+   - **Color:** White or black for contrast
+   - **Alignment:** Center
+5. **Position:** Center frame vertically and horizontally
+6. **Duration:** Extend clip to 3-5 seconds
+7. **Add transitions:** Dissolve in/out for smooth appearance
+
+**For more details see:**
+
+https://www.youtube.com/watch?v=6_L3P7PopBg
+
+---
+
+## Quick Troubleshooting
+
+### If Mask Isn't Working:
+- **Check layer order:** Masked clip should be on top
+- **Check mask direction:** Try inverting mask
+- **Feather edges:** Soften harsh lines
+
+### If Green Screen Has Green Edges:
+- **DaVinci:** Increase Clean Black/White sliders
+- **Premiere:** Increase Spill Suppression
+
+### If Title Cards Look Wrong:
+- **Keep it simple:** Black text on white, or white text on black
+- **Make text bigger:** Silent film titles were large
+- **Short phrases only:** 3-7 words maximum
+
+### If Everything Goes Wrong:
+- **Save your project first**
+- **Ask for help**
+- **Try the simplest version:** Basic cuts and one title card is better than broken effects
+
+---
+
+## Workshop Schedule (2 Hours)
+
+### Opening (15 minutes):
+- **5 minutes:** Live demo of stop-substitution (Vanishing Lady technique)
+- **5 minutes:** Screen example films
+- **5 minutes:** Distribute recipe cards, form groups, choose scripts
+
+### Production (80 minutes):
+- **20 minutes:** Story planning and shot listing
+- **50 minutes:** Shooting with equipment rotation
+- **10 minutes:** Basic assembly
+
+### Screening & Analysis (25 minutes):
+- **15 minutes:** Screen all silent films
+- **10 minutes:** Discussion: What apparatus affordances did you discover? How does magic serve story transformation?
+
+---
+
+## Learning Objectives
+
+- Master story circle structure for transformative narratives
+- Execute basic Méliès techniques with professional equipment
+- Create place-based impossible worlds serving assessment goals
+- Experience silent film storytelling constraints and affordances
+- Develop technical skills through practical creative application
+
+**Archaeological Question:** What does this apparatus afford for creating impossible worlds that other media cannot? How does in-camera magic differ from post-production effects in creating wonder?

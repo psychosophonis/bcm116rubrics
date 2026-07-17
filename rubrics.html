@@ -260,6 +260,39 @@
         @media (max-width: 600px) {
             .controls { position: static; max-width: none; margin-bottom: 24px; }
         }
+
+        .criterion-title { display: flex; align-items: baseline; gap: 8px; }
+
+        .link-btn {
+            flex-shrink: 0;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.7em;
+            color: #aaa;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        .link-btn:hover { background: #eee; color: #1f3864; }
+        .link-btn.copied { color: #27ae60; }
+
+        body.is-focused .banner { display: none; }
+        body.is-focused .controls { display: none; }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 14px;
+            font-size: 0.85em;
+            color: #1f3864;
+            text-decoration: none;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .focused-breadcrumb {
+            font-size: 0.85em;
+            color: #888;
+            margin-bottom: 18px;
+        }
     </style>
 </head>
 <body>
@@ -551,18 +584,43 @@
 
     /* ===== LOGIC ===== */
 
+    const ASSESSMENT_LABELS = {
+        a1: "Assessment 1 — Fortnightly Responses",
+        a2: "Assessment 2 — Investigation 1",
+        a3: "Assessment 3 — Investigation 2",
+        a4: "Assessment 4 — Investigations 3 & 4"
+    };
+
     let currentAssessment = 'a1';
     let selectedCriteria = new Set();
     let selectedGrades = new Set(GRADES.map(g => g.id));
 
     function switchAssessment(id) {
         currentAssessment = id;
+        document.body.classList.remove('is-focused');
         ['a1','a2','a3','a4'].forEach(a => {
             document.getElementById('btn-' + a).classList.toggle('active', id === a);
         });
         initializeCriteriaCheckboxes();
         renderContent();
         if (history.replaceState) history.replaceState(null, '', '#' + id);
+    }
+
+    function copyLink(e, hash) {
+        if (e) e.stopPropagation();
+        const url = location.origin + location.pathname + '#' + hash;
+        const btn = e && e.currentTarget;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(url).then(() => flashCopied(btn));
+        }
+    }
+
+    function flashCopied(btn) {
+        if (!btn) return;
+        const original = btn.textContent;
+        btn.textContent = '✓';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1200);
     }
 
     function initializeCriteriaCheckboxes() {
@@ -655,7 +713,10 @@
 
                 return `
                     <div class="criterion-section ${index > 0 ? 'page-break' : ''}">
-                        <h2 class="criterion-title">${criterion.fullTitle}</h2>
+                        <h2 class="criterion-title">
+                            <span>${criterion.fullTitle}</span>
+                            <button class="link-btn" title="Copy link to this criterion" onclick="copyLink(event, '${currentAssessment}-${criterion.id}')">🔗</button>
+                        </h2>
                         <p class="criterion-slo">${criterion.slo}</p>
                         ${outlineHTML}
                         ${briefHTML}
@@ -666,20 +727,75 @@
         document.getElementById('content-container').innerHTML = html;
     }
 
-    initializeCriteriaCheckboxes();
-    initializeGradeCheckboxes();
+    function renderFocusedCriterion(assessmentId, criterion) {
+        const gradesHTML = GRADES.map(g => {
+            const gd = criterion.grades[g.id];
+            const threshold = gd.threshold
+                ? `<span class="grade-threshold">${gd.threshold}</span>`
+                : '';
+            return `
+                <div class="grade-box ${g.id}">
+                    <div class="grade-header">${g.shortName} — ${g.fullName}</div>
+                    <div class="grade-desc">${gd.desc}${threshold}</div>
+                </div>`;
+        }).join('');
 
-    const startHash = window.location.hash.replace('#', '');
-    if (['a1','a2','a3','a4'].includes(startHash)) {
-        switchAssessment(startHash);
-    } else {
-        renderContent();
+        const briefHTML = criterion.brief
+            ? `<p class="criterion-brief">${criterion.brief}</p>`
+            : '';
+
+        const outlineHTML = criterion.outline
+            ? `<p class="criterion-outline">(<span class="outline-label">Outline:</span> ${criterion.outline})</p>`
+            : '';
+
+        document.getElementById('note-container').innerHTML = '';
+        document.getElementById('content-container').innerHTML = `
+            <a class="back-link" href="rubrics.html#${assessmentId}">← Full rubric for ${ASSESSMENT_LABELS[assessmentId]}</a>
+            <div class="focused-breadcrumb">${ASSESSMENTS[assessmentId].subtitle}</div>
+            <div class="criterion-section">
+                <h2 class="criterion-title"><span>${criterion.fullTitle}</span></h2>
+                <p class="criterion-slo">${criterion.slo}</p>
+                ${outlineHTML}
+                ${briefHTML}
+                ${gradesHTML}
+            </div>
+        `;
     }
 
-    window.addEventListener('hashchange', () => {
+    // Deep-link support: #a2 opens the full Assessment 2 rubric page.
+    // #a2-research opens a stripped-down single view of the Research criterion, all grade bands shown.
+    function handleHash() {
         const h = window.location.hash.replace('#', '');
-        if (['a1','a2','a3','a4'].includes(h)) switchAssessment(h);
-    });
+        const match = h.match(/^(a1|a2|a3|a4)(?:-([a-z]+))?$/);
+        if (!match) {
+            document.body.classList.remove('is-focused');
+            renderContent();
+            return;
+        }
+
+        const assessment = match[1];
+        const critId = match[2];
+        currentAssessment = assessment;
+        ['a1','a2','a3','a4'].forEach(a => {
+            document.getElementById('btn-' + a).classList.toggle('active', a === assessment);
+        });
+        initializeCriteriaCheckboxes();
+
+        const criterion = critId ? ASSESSMENTS[assessment].criteria.find(c => c.id === critId) : null;
+
+        if (criterion) {
+            document.body.classList.add('is-focused');
+            renderFocusedCriterion(assessment, criterion);
+        } else {
+            document.body.classList.remove('is-focused');
+            renderContent();
+        }
+    }
+
+    initializeCriteriaCheckboxes();
+    initializeGradeCheckboxes();
+    handleHash();
+    window.addEventListener('hashchange', handleHash);
     </script>
 </body>
 </html>

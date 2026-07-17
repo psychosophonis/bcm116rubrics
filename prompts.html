@@ -233,6 +233,39 @@
         .controls { position: static; margin-bottom: 20px; }
         .prompt-body { padding-left: 18px; }
     }
+
+    .link-btn {
+        flex-shrink: 0;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 0.85em;
+        color: #aaa;
+        padding: 2px 6px;
+        border-radius: 4px;
+    }
+    .link-btn:hover { background: #eee; color: #1f3864; }
+    .link-btn.copied { color: #27ae60; }
+
+    .alt-title-row { display: flex; align-items: center; justify-content: space-between; }
+
+    body.is-focused .banner { display: none; }
+    body.is-focused .controls { display: none; }
+
+    .back-link {
+        display: inline-block;
+        margin-bottom: 14px;
+        font-size: 0.85em;
+        color: #1f3864;
+        text-decoration: none;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    .focused-breadcrumb {
+        font-size: 0.85em;
+        color: #888;
+        margin-bottom: 18px;
+    }
 </style>
 </head>
 <body>
@@ -317,13 +350,37 @@ const DATA = {
     }
 };
 
+const ASSESSMENT_LABELS = {
+    a2: "Assessment 2 — Investigation 1",
+    a3: "Assessment 3 — Investigation 2",
+    a4: "Assessment 4 — Investigations 3 & 4"
+};
+
 let current = 'a2';
 
 function switchAssessment(id) {
     current = id;
+    document.body.classList.remove('is-focused');
     ['a2','a3','a4'].forEach(a => document.getElementById('btn-' + a).classList.toggle('active', a === id));
     render();
     if (history.replaceState) history.replaceState(null, '', '#' + id);
+}
+
+function copyLink(e, hash) {
+    if (e) e.stopPropagation();
+    const url = location.origin + location.pathname + '#' + hash;
+    const btn = e && e.currentTarget;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(() => flashCopied(btn));
+    }
+}
+
+function flashCopied(btn) {
+    if (!btn) return;
+    const original = btn.textContent;
+    btn.textContent = '✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1200);
 }
 
 function togglePrompt(el) {
@@ -353,6 +410,7 @@ function render() {
             <div class="prompt-header" onclick="togglePrompt(this)">
                 <span class="prompt-number">${i + 1}</span>
                 <span class="prompt-summary">${p.summary}</span>
+                <button class="link-btn" title="Copy link to this prompt" onclick="copyLink(event, '${current}-p${i + 1}')">🔗</button>
                 <span class="prompt-caret">▶</span>
             </div>
             <div class="prompt-body">
@@ -367,7 +425,10 @@ function render() {
 
     const altHTML = `
         <div class="alt-block" id="alt">
-            <div class="alt-title">${data.alt.title}</div>
+            <div class="alt-title-row">
+                <div class="alt-title">${data.alt.title}</div>
+                <button class="link-btn" title="Copy link to this alternative" onclick="copyLink(event, '${current}-alt')">🔗</button>
+            </div>
             <p class="prompt-text">${data.alt.text}</p>
             <div class="resources">
                 <span class="resources-label">Additional resources</span>
@@ -388,33 +449,70 @@ function render() {
     `;
 }
 
-render();
+function renderFocusedPrompt(assessmentId, idx) {
+    const data = DATA[assessmentId];
+    const p = data.prompts[idx];
+    document.getElementById('content-container').innerHTML = `
+        <a class="back-link" href="prompts.html#${assessmentId}">← All prompts for ${ASSESSMENT_LABELS[assessmentId]}</a>
+        <div class="focused-breadcrumb">${ASSESSMENT_LABELS[assessmentId]} · Prompt ${idx + 1} of ${data.prompts.length}</div>
+        <div class="prompt open">
+            <div class="prompt-header" style="cursor: default;">
+                <span class="prompt-number">${idx + 1}</span>
+                <span class="prompt-summary">${p.summary}</span>
+            </div>
+            <div class="prompt-body" style="display: block;">
+                <p class="prompt-text">${p.text}</p>
+                <div class="resources">
+                    <span class="resources-label">Additional resources</span>
+                    <span class="empty">None added yet.</span>
+                </div>
+            </div>
+        </div>
+    `;
+}
 
-// Deep-link support: #a2 opens Assessment 2 overview.
-// #a2-p3 opens Assessment 2 and expands/scrolls to prompt 3.
-// #a2-alt opens Assessment 2 and scrolls to the Critical Analysis Alternative.
+function renderFocusedAlt(assessmentId) {
+    const data = DATA[assessmentId];
+    document.getElementById('content-container').innerHTML = `
+        <a class="back-link" href="prompts.html#${assessmentId}">← All prompts for ${ASSESSMENT_LABELS[assessmentId]}</a>
+        <div class="focused-breadcrumb">${ASSESSMENT_LABELS[assessmentId]} · Critical Analysis Alternative</div>
+        <div class="alt-block">
+            <div class="alt-title">${data.alt.title}</div>
+            <p class="prompt-text">${data.alt.text}</p>
+            <div class="resources">
+                <span class="resources-label">Additional resources</span>
+                <span class="empty">None added yet.</span>
+            </div>
+        </div>
+    `;
+}
+
+// Deep-link support: #a2 opens the full Assessment 2 page.
+// #a2-p3 opens a stripped-down single view of prompt 3.
+// #a2-alt opens a stripped-down single view of the Critical Analysis Alternative.
 function handleHash() {
     const h = window.location.hash.replace('#', '');
     const match = h.match(/^(a2|a3|a4)(?:-(p\d+|alt))?$/);
-    if (!match) return;
+    if (!match) {
+        document.body.classList.remove('is-focused');
+        render();
+        return;
+    }
 
     const assessment = match[1];
     const target = match[2];
-    if (assessment !== current) {
-        switchAssessment(assessment);
-    }
+    current = assessment;
+    ['a2','a3','a4'].forEach(a => document.getElementById('btn-' + a).classList.toggle('active', a === assessment));
 
     if (target === 'alt') {
-        setTimeout(() => { const el = document.getElementById('alt'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }, 50);
+        document.body.classList.add('is-focused');
+        renderFocusedAlt(assessment);
     } else if (target && target.startsWith('p')) {
-        const idx = parseInt(target.slice(1), 10) - 1;
-        setTimeout(() => {
-            const el = document.getElementById('prompt-' + idx);
-            if (el) {
-                el.classList.add('open');
-                el.scrollIntoView({ behavior: 'smooth' });
-            }
-        }, 50);
+        document.body.classList.add('is-focused');
+        renderFocusedPrompt(assessment, parseInt(target.slice(1), 10) - 1);
+    } else {
+        document.body.classList.remove('is-focused');
+        render();
     }
 }
 

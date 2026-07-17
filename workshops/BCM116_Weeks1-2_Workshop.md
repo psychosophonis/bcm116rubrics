@@ -1,0 +1,59 @@
+# BCM116 Weeks 1 & 2: First Contact
+
+Two weeks, one room, three apparatuses. You're not here to consume these devices — you're investigating them, the way an archaeologist studies an artefact: what it does, how it's been used, and where wonder happens.
+
+Every station is a live candidate for your Assessment 2 device. By the end of Week 2 you should have handled all three enough to choose one and know why.
+
+## Move as you like
+
+No fixed rotation — go where your interest takes you, across both weeks. Have a go at all three before you settle on the one you like; you'll make a better call once you've actually felt the difference between them. If VR is busy, put your name on the whiteboard list and come back to it.
+
+---
+
+## WEEK 1 — First Contact
+
+**Station 1 — Thaumatrope, Phenakistoscope, Flipbook**
+Spin a disc. Draw your own two-sided image for the thaumatrope, or work through the phenakistoscope sequences. Then dig into how artists have actually used these devices — Assessment 2 points you toward some (Andymation for flipbook, and others) — and start thinking about what you'd make.
+
+*What does the spin do that a single drawing can't? Where does the illusion actually happen — in the disc, or in you?*
+
+**Station 2 — Scratch & Telecine**
+Needles, razor blades, sandpaper, real 16mm film. Scratch it, project and capture the result immediately, look at what you made, scratch again. That loop is the whole method — no staged technique to learn first.
+
+*You can make a film without a camera. What does that actually mean, once you're holding the blade?*
+
+**Station 3 — VR**
+First Steps if you're new to a headset. Then choose one to sit with properly, rather than skimming several:
+
+- *Dear Angelica*
+- *Notes on Blindness*
+- *We Live Here*
+- *Home After War*
+- *On the Morning You Wake*
+
+*What does this apparatus do that a flat screen can't? When did you feel wonder — from the tech itself, or from what someone made with it?*
+
+**Before next week**
+Take home the *Make a Spinning Disc, Thaumatrope, or Flipbook* brief. No fixed method — pens, the disc generator, PhenaSpin, Photoshop, any combination. Due end of Week 2.
+
+---
+
+## WEEK 2 — Working Session
+
+Same three stations. The question shifts from *what is this* to *is this mine.*
+
+**Station 1 — Research, Continued**
+Bring whatever you made for homework. Push the Assessment 2 idea further — an actual plan, not just an impression.
+
+**Station 2 — Scratch & Telecine**
+Same loop, more time now the process is familiar. Same question: is this your device?
+
+**Station 3 — VR: OpenBrush**
+This time you're building, not just watching. OpenBrush is itself an Assessment 2 option.
+
+**End of Week 2 — Device Brief**
+Post to Discord before Tuesday's Week 3 class:
+- Device: [thaumatrope / phenakistoscope / flipbook / scratch / VR–OpenBrush]
+- One sentence — what you want to make or test, and why. Not what the device is. What you're going to do.
+
+If you can't finish the sentence, you haven't found your version of this yet.
