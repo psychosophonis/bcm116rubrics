@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BCM116 — Green Screen Magic</title>
+<link rel="stylesheet" href="../assets/content.css">
+</head>
+<body>
+
+<a class="back-link" href="index.html">← All learning resources</a>
+
+<div class="w-banner">
+    <h1>Green Screen Magic</h1>
+    <p class="w-tagline">Replacing backgrounds, creating impossible locations, putting multiple people in the same shot, scale effects. A general-purpose technique — useful whenever an Investigation calls for it, not just in the workshop it was introduced in.</p>
+</div>
+
+<div id="rendered"></div>
+
+<script type="text/markdown" id="content">
+**Examples:**
+- Transport character to different location
+- Create multiple versions of same person
+- Add impossible backgrounds
+- Make person appear giant or tiny
+
+## DaVinci Resolve Method
+
+1. **Setup Timeline:** Background V1, green screen clip V2
+2. **Select green screen clip** → **Color tab**
+3. **Qualifier panel** → **Click eyedropper tool**
+4. **Click green screen** in viewer
+5. **Click Highlight** to see selection (gray area)
+6. **Click Invert** if wrong area selected
+7. **Clean up:** Adjust Clean Black/White sliders for clean edges
+8. **Spill suppression:** Remove green color cast from edges
+
+## Premiere Pro Method
+
+1. **Setup Timeline:** Background V1, green screen V2
+2. **Effects:** Search **"Ultra Key"** → drag to green screen clip
+3. **Effect Controls:** Click **eyedropper** next to Key Color
+4. **Click green screen** in viewer to sample color
+5. **Setting:** Change to "Aggressive" for better key
+6. **Matte Generation:** Adjust Tolerance/Pedestal if needed
+7. **Spill Suppression:** Set to Medium to remove green edges
+
+## For more detail
+
+- [Another Resolve green screen method, with more detail](https://www.youtube.com/watch?v=tNeUs79W8eA)
+- For Premiere, see the instructions above, or [this short Premiere green-screen tutorial](https://www.youtube.com/shorts/8IwgFqU9_Sg)
+
+## If Green Screen Has Green Edges
+
+- **DaVinci:** Increase Clean Black/White sliders
+- **Premiere:** Increase Spill Suppression
+
+## If Everything Goes Wrong
+
+- **Save your project first**
+- **Ask for help**
+- **Try the simplest version:** Basic cuts and one title card is better than broken effects
+</script>
+
+<script src="../assets/content.js"></script>
+</body>
+</html>

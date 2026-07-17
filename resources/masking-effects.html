@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BCM116 — Masking Effects</title>
+<link rel="stylesheet" href="../assets/content.css">
+</head>
+<body>
+
+<a class="back-link" href="index.html">← All learning resources</a>
+
+<div class="w-banner">
+    <h1>Masking Effects</h1>
+    <p class="w-tagline">Object replacement, isolating parts of an image, creating impossible combinations, making backgrounds appear or disappear. A general-purpose technique — useful whenever an Investigation calls for it, not just in the workshop it was introduced in.</p>
+</div>
+
+<div id="rendered"></div>
+
+<script type="text/markdown" id="content">
+**Examples:**
+- Replace what's on a computer screen
+- Make text appear behind a person
+- Combine different takes of same scene
+- Hide/reveal objects selectively
+
+## DaVinci Resolve Method
+
+1. **Setup Timeline:** Base clip V1, overlay/effect clip V2
+2. **Select clip to mask** → Fusion tab (Wand Icon)
+3. **Window panel** → Choose **Circle, Linear, or Pen tool**
+4. **Draw mask** around area you want to isolate
+5. **Refine:** Adjust softness slider for smooth edges
+6. **Track movement:** Use tracker if subject moves
+
+(An even easier version if you don't plan to overlap interactions — see the video below.)
+
+## Premiere Pro Method
+
+1. **Setup Timeline:** Base clip V1, overlay clip V2
+2. **Select clip to mask**.
+3. Go to the **Effects Controls** and Find 'Opacity' - Click the **Ellipse, Rectangle, or Bezier** (Pen) Tool to create a mask.
+4. **Draw mask** by clicking points around subject in the program window.
+5. **Feather edges** for smooth blend
+6. **Mask Path:** Enable stopwatch and add keyframes in the effects control timeline to animate if needed.
+7. **Adjust opacity** if blending multiple layers
+8. You can then **scale** and **reposition** this masked content by selecting 'Motion' in the effects controls and adjusting as required.
+
+## For more detail
+
+- [A really short, easy intro to masking in Premiere Pro](https://www.youtube.com/watch?v=M1jije6Gmvg) — you probably only need the first 3 minutes.
+- [Masking in DaVinci Resolve](https://www.youtube.com/watch?v=6MVm85mY1S8) — the first bit is the simplest way to mask.
+- [A clearer introduction to more complex masking](https://www.youtube.com/watch?v=oRYmyIu8qcA) — in the free version, starts at about 4:30.
+
+## If Masking Isn't Working
+
+- **Check layer order:** Masked clip should be on top
+- **Check mask direction:** Try inverting mask
+- **Feather edges:** Soften harsh lines
+
+## If Everything Goes Wrong
+
+- **Save your project first**
+- **Ask for help**
+- **Try the simplest version:** Basic cuts and one title card is better than broken effects
+</script>
+
+<script src="../assets/content.js"></script>
+</body>
+</html>

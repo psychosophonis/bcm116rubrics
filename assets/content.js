@@ -14,18 +14,28 @@ function youtubeEmbedId(url) {
     return m ? m[1] : null;
 }
 
+function linkAttrs(href) {
+    const external = /^https?:\/\//.test(href);
+    const isVideo = !!youtubeEmbedId(href);
+    const cls = isVideo ? ' class="video-link"' : '';
+    const target = external ? ' target="_blank" rel="noopener"' : '';
+    const prefix = isVideo ? '▶ ' : '';
+    return { cls, target, prefix };
+}
+
 function inlineFormat(text) {
     let out = escapeHTML(text);
     out = out.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     out = out.replace(/(^|[^*])\*([^*]+?)\*([^*]|$)/g, '$1<em>$2</em>$3');
     out = out.replace(/\[([^\]]+)\]\(([^\s)]+)\)/g, (m, label, href) => {
-        const external = /^https?:\/\//.test(href);
-        return `<a href="${href}"${external ? ' target="_blank" rel="noopener"' : ''}>${label}</a>`;
+        const { cls, target, prefix } = linkAttrs(href);
+        return `<a href="${href}"${cls}${target}>${prefix}${label}</a>`;
     });
     out = out.replace(/(^|[^"'>])(https?:\/\/[^\s<]+)/g, (match, pre, url) => {
         const trimmed = url.replace(/[.,;)]+$/, '');
         const trailing = url.slice(trimmed.length);
-        return `${pre}<a href="${trimmed}" target="_blank" rel="noopener">${trimmed}</a>${trailing}`;
+        const { cls, target, prefix } = linkAttrs(trimmed);
+        return `${pre}<a href="${trimmed}"${cls}${target}>${prefix}${trimmed}</a>${trailing}`;
     });
     return out;
 }
@@ -61,6 +71,13 @@ function renderMarkdown(md) {
 
         const ulMatch = trimmed.match(/^[-*]\s+(.*)$/);
         const olMatch = trimmed.match(/^\d+\.\s+(.*)$/);
+        const bqMatch = trimmed.match(/^>\s?(.*)$/);
+
+        if (bqMatch) {
+            if (!current || current.type !== 'aside') { flush(); current = { type: 'aside', lines: [] }; }
+            current.lines.push(bqMatch[1]);
+            continue;
+        }
 
         if (ulMatch) {
             if (!current || current.type !== 'ul') { flush(); current = { type: 'ul', lines: [] }; }
@@ -127,14 +144,13 @@ function renderMarkdown(md) {
             continue;
         }
 
+        if (block.type === 'aside') {
+            html += `<div class="aside">${inlineFormat(block.lines.join(' '))}</div>`;
+            continue;
+        }
+
         if (block.type === 'p') {
             const joined = block.lines.join(' ');
-            const videoId = youtubeEmbedId(joined.trim());
-            if (videoId && joined.trim().match(/^https?:\/\/\S+$/)) {
-                const url = joined.trim();
-                html += `<div class="video-embed"><iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe><a class="print-video-link" href="${url}" target="_blank" rel="noopener">Watch: ${url}</a></div>`;
-                continue;
-            }
             const isWhollyItalic = /^\*[^*]+\*$/.test(joined.trim());
             if (isWhollyItalic) {
                 html += `<div class="reflect-box">${inlineFormat(joined.trim().slice(1, -1))}</div>`;
