@@ -58,6 +58,19 @@ The tools above expect a folder of frames as their starting point. Photoshop's T
 4. Alter the frame.
 5. Move to the next frame and repeat until complete.
 
+### Animating a still image (e.g. a Muybridge motion study)
+
+You don't need video to get frames into the Timeline. Muybridge's motion studies are already laid out as a grid of sequential frames in one image — slice that grid apart and Photoshop will treat it exactly like an imported video sequence.
+
+1. Find a high-resolution image of a Muybridge motion study (or any other multi-frame contact sheet).
+2. Use the **Slice tool** to cut it into individual frames. The slices need to align precisely and all be the same size, or the animation will jitter.
+3. With only the frames selected: **File > Save for Web**, export as high-res JPG, and in the following dialog set **Slices** to **Selected Slices**, then **Save**. This exports each slice as its own numbered file.
+4. Back in Photoshop: **File > Scripts > Load Files into Stack**, and select the folder or files you just exported. You can try the auto-align option, but it's unreliable — check it manually.
+5. This produces a new file with each frame as its own layer, ready for the Timeline as in the video workflow above: **Window > Timeline**, then **Create Frame Animation**, then use the panel's menu (hamburger icon, top right of the Timeline) and choose **Make Frames from Layers**.
+6. Test the playback, then export as below.
+
+The same slice-and-stack approach works for any multi-frame source image, not just Muybridge — old chronophotography, contact sheets, printed comic strips.
+
 ### Exporting your animation
 
 Once you've worked through your frame sequence, you have three export options:
